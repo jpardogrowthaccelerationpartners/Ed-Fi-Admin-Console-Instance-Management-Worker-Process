@@ -103,7 +103,7 @@ jobs:
       matrix:
         dockerfile:
           [
-            { name: "development", path: "./docker/Dockerfile", type: "local" },
+            { name: "development", path: "docker/Dockerfile", type: "local" },
           ]
     steps:
       - name: Checkout code
@@ -111,7 +111,7 @@ jobs:
 
       - name: Set Version Numbers
         run: |
-          ls
+          ls docker
           
       - name: Log in to Docker Hub
         uses: docker/login-action@343f7c4344506bcbf9b4de18042ae17996df046d # v3.0.0
