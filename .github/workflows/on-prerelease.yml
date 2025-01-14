@@ -102,9 +102,7 @@ jobs:
       fail-fast: false
       matrix:
         dockerfile:
-          [
-            { name: "development", path: "docker/Dockerfile", type: "local" },
-          ]
+          [ { name: "development", path: "docker/Dockerfile", type: "local" } ]
     steps:
       - name: Checkout code
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
@@ -122,6 +120,7 @@ jobs:
       - name: Build
         run: |
           dockerfile=$(echo ${{matrix.dockerfile.path}} | awk -F"/" '{print $NF}')
+
           docker build -f $dockerfile -t ${{ matrix.dockerfile.name }} --build-arg="pre" .
 
       - name: Analyze
