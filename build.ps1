@@ -104,7 +104,7 @@ function Publish {
     Invoke-Execute {
         $outputPath = "$solutionRoot/$projectName/publish"
         $project = "$solutionRoot/$projectName/"
-        dotnet publish $project -c $Configuration /p:EnvironmentName=Production -o $outputPath --no-build --nologo
+        dotnet publish $defaultSolution -c $Configuration /p:EnvironmentName=Production -o $outputPath --no-build --nologo
     }
 }
 
