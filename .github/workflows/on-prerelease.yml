@@ -75,7 +75,7 @@ jobs:
           "Building ${{ env.PACKAGE_NAME }} NuGet Package" | Write-Output
           # installer and Transform load to single package
           ./build.ps1 -Command Package `
-              -Version $appVersion `
+              -DMSVersion $appVersion `
               -Configuration Release
               
       - name: Generate hash for NuGet package
