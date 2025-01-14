@@ -120,7 +120,7 @@ jobs:
       - name: Build
         run: |
           dockerfile=$(echo ${{matrix.dockerfile.path}} | awk -F"/" '{print $NF}')
-
+          echo $dockerfile
           docker build -f docker/Dockerfile -t ${{ matrix.dockerfile.name }} --build-arg="pre" .
 
       - name: Analyze
