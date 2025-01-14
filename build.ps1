@@ -1,7 +1,7 @@
-# SPDX-License-Identifier: Apache-2.0 Licensed to the Ed-Fi Alliance under one
-# or more agreements. The Ed-Fi Alliance licenses this file to you under the
-# Apache License, Version 2.0. See the LICENSE and NOTICES files in the project
-# root for more information.
+# SPDX-License-Identifier: Apache-2.0
+# Licensed to the Ed-Fi Alliance under one or more agreements.
+# The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+# See the LICENSE and NOTICES files in the project root for more information.
 
 [CmdLetBinding()]
 <#
@@ -12,8 +12,8 @@
         Provides automation of the following tasks:
 
         * Clean: runs `dotnet clean`
-        * Build: runs `dotnet build` with several implicit steps (clean,
-          restore, inject version information).
+        * Build: runs `dotnet build` with several implicit steps
+          (clean, restore, inject version information).
         * UnitTest: executes NUnit tests in projects named `*.UnitTests`, which
           do not connect to a database.
     .EXAMPLE
@@ -31,7 +31,7 @@
 param(
     # Command to execute, defaults to "Build".
     [string]
-    [ValidateSet("Clean", "Build", "UnitTest")]
+    [ValidateSet("Clean", "Build", "UnitTest", "BuildAndPublish")]
     $Command = "Build",
 
     # Assembly and package version number for the Data Management Service. The
@@ -100,6 +100,14 @@ function Compile {
     }
 }
 
+function Publish {
+    Invoke-Execute {
+        $outputPath = "$solutionRoot/$projectName/publish"
+        $project = "$solutionRoot/$projectName/"
+        dotnet publish $project -c $Configuration /p:EnvironmentName=Production -o $outputPath --no-build --nologo
+    }
+}
+
 function RunTests {
     param (
         # File search filter
@@ -153,6 +161,16 @@ function Invoke-TestExecution {
     }
 }
 
+function Invoke-SetAssemblyInfo {
+    Write-Output "Setting Assembly Information"
+
+    Invoke-Step { SetDMSAssemblyInfo }
+}
+
+function Invoke-Publish {
+    Invoke-Step { Publish }
+}
+
 Invoke-Main {
     if ($IsLocalBuild) {
         $nugetExePath = Install-NugetCli
@@ -162,6 +180,11 @@ Invoke-Main {
         Clean { Invoke-Clean }
         Build { Invoke-Build }
         UnitTest { Invoke-TestExecution UnitTests }
+        BuildAndPublish {
+            Invoke-SetAssemblyInfo
+            Invoke-Build
+            Invoke-Publish
+        }
         default { throw "Command '$Command' is not recognized" }
     }
 }
