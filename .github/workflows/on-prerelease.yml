@@ -19,7 +19,7 @@ env:
   DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
   DOCKER_USERNAME: ${{ vars.DOCKER_USERNAME }}
   MANIFEST_FILE: "_manifest/spdx_2.2/manifest.spdx.json"
-  PACKAGE_NAME: "AdminConsole.InstanceManagement"
+  PACKAGE_NAME: "AdminConsole.InstanceManagementWorker"
 
 jobs:
   pack:
