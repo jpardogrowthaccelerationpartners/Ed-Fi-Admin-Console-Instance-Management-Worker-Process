@@ -120,7 +120,7 @@ function RunDotNetPack {
         $NuspecFileName
     )
 
-        dotnet pack "$ProjectName.csproj" --no-build --no-restore --output "$PSScriptRoot" --configuration $Configuration -p:NuspecFile="$NuspecFileName.nuspec" -p:NuspecProperties="version=$Version"
+        dotnet pack "$ProjectName.csproj" --no-build --no-restore --output "$PSScriptRoot" --configuration $Configuration -p:NuspecProperties="version=$Version"
 }
 
 function Package {
