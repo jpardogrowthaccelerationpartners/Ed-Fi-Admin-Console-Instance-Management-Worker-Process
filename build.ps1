@@ -124,7 +124,7 @@ function RunDotNetPack {
 
 function Package {
     Invoke-Execute {
-        $baseProjectFullName = "$solutionRoot/$projectName"  
+        $baseProjectFullName = "$solutionRoot/$projectName/$projectName"  
         RunDotNetPack -PackageVersion $DMSVersion -projectName $baseProjectFullName $baseProjectFullName            
     }
 }
