@@ -55,8 +55,8 @@ param(
 )
 
 $solutionRoot = "$PSScriptRoot/src"
-$solutionFolderName = "EdFi.AdminConsole.InstanceManagement"
-$defaultSolution = "$solutionRoot/$solutionFolderName.sln"
+$csprojFolderName = "EdFi.AdminConsole.InstanceManagementWorker"
+$defaultSolution = "$solutionRoot/EdFi.AdminConsole.InstanceManagement.sln"
 $projectName = "Ed-Fi-Admin-Console-Instance-Management-Worker-Process"
 $packageName = "Ed-Fi-Admin-Console-Instance-Management-Worker-Process"
 $testResults = "$PSScriptRoot/TestResults"
@@ -119,12 +119,12 @@ function RunDotNetPack {
         [string]
         $NuspecFileName
     )
-    dotnet pack "$solutionFolderName.csproj" --no-build --no-restore --output "$PSScriptRoot" --configuration $Configuration -p:NuspecFile="$NuspecFileName.nuspec" -p:NuspecProperties="version=$PackageVersion"
+    dotnet pack "$ProjectName.csproj" --no-build --no-restore --output "$PSScriptRoot" --configuration $Configuration -p:NuspecFile="$NuspecFileName.nuspec" -p:NuspecProperties="version=$PackageVersion"
 }
 
 function Package {
     Invoke-Execute {
-        $baseProjectFullName = "$solutionRoot/$solutionFolderName/$solutionFolderName"  
+        $baseProjectFullName = "$solutionRoot/$csprojFolderName/$csprojFolderName"
         RunDotNetPack -PackageVersion $DMSVersion -projectName $baseProjectFullName $baseProjectFullName        
     }
 }
