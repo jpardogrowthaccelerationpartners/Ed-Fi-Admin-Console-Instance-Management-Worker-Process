@@ -9,6 +9,9 @@
     <copyright>Copyright © 2025, Ed-Fi Alliance, LLC.</copyright>
     <summary>Ed-Fi Instance Management Worker</summary>
     <description>Ed-Fi Instance Management Worker</description>
-    <license type="expression">edfi</license>
+    <license type="expression">Apache-2.0</license>
   </metadata>
+<files>  
+      <file src="publish\**\*.*" target="EdFi.AdminConsole.InstanceManagementWorker" />
+</files>
 </package>
