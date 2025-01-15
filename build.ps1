@@ -125,6 +125,8 @@ function RunDotNetPack {
 function Package {
     Invoke-Execute {
         $baseProjectFullName = "$solutionRoot/$solutionFolderName/$solutionFolderName"  
+        ls "/home/runner/work/Ed-Fi-Admin-Console-Instance-Management-Worker-Process/Ed-Fi-Admin-Console-Instance-Management-Worker-Process/src/EdFi.AdminConsole.InstanceManagement/"
+        ls $baseProjectFullName
         RunDotNetPack -PackageVersion $DMSVersion -projectName $baseProjectFullName $baseProjectFullName        
     }
 }
