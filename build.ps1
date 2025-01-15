@@ -31,7 +31,7 @@
 param(
     # Command to execute, defaults to "Build".
     [string]
-    [ValidateSet("Clean", "Build", "BuildAndPublish", "UnitTest")]
+    [ValidateSet("Clean", "Build", "BuildAndPublish", "Package", "UnitTest")]
     $Command = "Build",
 
     # Assembly and package version number for the Data Management Service. The
@@ -107,9 +107,24 @@ function Publish {
     }
 }
 
+function RunDotNetPack {
+    param (
+        [string]
+        $PackageVersion,
+
+        [string]
+        $ProjectName,
+
+        [string]
+        $NuspecFileName
+    )
+
+    dotnet pack "$ProjectName.csproj" --no-build --no-restore --output "$PSScriptRoot" --configuration $Configuration -p:NuspecFile="$NuspecFileName.nuspec" -p:NuspecProperties="version=$PackageVersion"
+}
+
 function Package {
     Invoke-Execute {
-        $baseProjectFullName = "$solutionRoot/$projectName/$projectName"  
+        $baseProjectFullName = "$solutionRoot/$projectName"  
         RunDotNetPack -PackageVersion $DMSVersion -projectName $baseProjectFullName $baseProjectFullName            
     }
 }
