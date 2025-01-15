@@ -103,7 +103,7 @@ function Compile {
 
 function Publish {
     Invoke-Execute {
-        $outputPath = "$solutionRoot/$projectName/publish"
+        $outputPath = "$solutionRoot/$csprojFolderName/publish"
         dotnet publish $defaultSolution -c $Configuration /p:EnvironmentName=Production -o $outputPath --no-build --nologo
     }
 }
