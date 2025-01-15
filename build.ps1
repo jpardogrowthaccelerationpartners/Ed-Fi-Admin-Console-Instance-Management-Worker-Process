@@ -114,15 +114,19 @@ function RunDotNetPack {
         $PackageVersion,
 
         [string]
+        $ProjectName,
+
+        [string]
         $NuspecFileName
     )
-    dotnet pack $defaultSolution --no-build --no-restore --output "$PSScriptRoot" --configuration $Configuration -p:NuspecFile="$NuspecFileName.nuspec" -p:NuspecProperties="version=$PackageVersion"
+    dotnet pack "$ProjectName.csproj" --no-build --no-restore --output "$PSScriptRoot" --configuration $Configuration -p:NuspecFile="$NuspecFileName.nuspec" -p:NuspecProperties="version=$PackageVersion"
 }
 
 function Package {
     Invoke-Execute {
         $baseProjectFullName = "$solutionRoot/$solutionFolderName/$solutionFolderName"  
-        RunDotNetPack -PackageVersion $DMSVersion $baseProjectFullName        
+        ls -R /home/runner/work/Ed-Fi-Admin-Console-Instance-Management-Worker-Process/
+        RunDotNetPack -PackageVersion $DMSVersion -projectName $baseProjectFullName $baseProjectFullName        
     }
 }
 
