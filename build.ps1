@@ -125,8 +125,12 @@ function RunDotNetPack {
 function Package {
     Invoke-Execute {
         $baseProjectFullName = "$solutionRoot/$solutionFolderName/$solutionFolderName"  
-        ls "/home/runner/work/Ed-Fi-Admin-Console-Instance-Management-Worker-Process/Ed-Fi-Admin-Console-Instance-Management-Worker-Process/src/EdFi.AdminConsole.InstanceManagement/"
-        ls $baseProjectFullName
+        $projectDirectory = "/home/runner/work/Ed-Fi-Admin-Console-Instance-Management-Worker-Process/src/EdFi.AdminConsole.InstanceManagement/"
+        if (Test-Path $projectDirectory) {
+            Write-Host "Directory exists: $projectDirectory"
+        } else {
+            Write-Host "Directory does NOT exist: $projectDirectory"
+        }
         RunDotNetPack -PackageVersion $DMSVersion -projectName $baseProjectFullName $baseProjectFullName        
     }
 }
