@@ -114,24 +114,15 @@ function RunDotNetPack {
         $PackageVersion,
 
         [string]
-        $ProjectName,
-
-        [string]
         $NuspecFileName
     )
-    dotnet pack "$ProjectName.csproj" --no-build --no-restore --output "$PSScriptRoot" --configuration $Configuration -p:NuspecFile="$NuspecFileName.nuspec" -p:NuspecProperties="version=$PackageVersion"
+    dotnet pack $defaultSolution --no-build --no-restore --output "$PSScriptRoot" --configuration $Configuration -p:NuspecFile="$NuspecFileName.nuspec" -p:NuspecProperties="version=$PackageVersion"
 }
 
 function Package {
     Invoke-Execute {
         $baseProjectFullName = "$solutionRoot/$solutionFolderName/$solutionFolderName"  
-        $projectDirectory = "/home/runner/work/Ed-Fi-Admin-Console-Instance-Management-Worker-Process/src/EdFi.AdminConsole.InstanceManagement/"
-        if (Test-Path $projectDirectory) {
-            Write-Host "Directory exists: $projectDirectory"
-        } else {
-            Write-Host "Directory does NOT exist: $projectDirectory"
-        }
-        RunDotNetPack -PackageVersion $DMSVersion -projectName $baseProjectFullName $baseProjectFullName        
+        RunDotNetPack -PackageVersion $DMSVersion $baseProjectFullName        
     }
 }
 
