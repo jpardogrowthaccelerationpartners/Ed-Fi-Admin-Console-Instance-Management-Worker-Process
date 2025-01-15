@@ -65,7 +65,7 @@ jobs:
           $appVersion = "${{ steps.versions.outputs.instance-management-semver }}"
           ./build.ps1 -Command BuildAndPublish `
               -Configuration Release `
-              -DMSVersion $appVersion
+              -Version $appVersion
               
       - name: Setup Nuget.exe
         uses: nuget/setup-nuget@fd9fffd6ca4541cf4152a9565835ca1a88a6eb37 #v1.1.1
@@ -77,7 +77,7 @@ jobs:
           "Building ${{ env.PACKAGE_NAME }} NuGet Package" | Write-Output
           # installer and Transform load to single package
           ./build.ps1 -Command Package `
-              -DMSVersion $appVersion `
+              -Version $appVersion `
               -Configuration Release
               
       - name: Generate hash for NuGet package
@@ -107,7 +107,7 @@ jobs:
           [ { name: "development", path: "docker/Dockerfile", type: "local" } ]
     steps:
       - name: Checkout code
-        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
           
       - name: Log in to Docker Hub
         uses: docker/login-action@343f7c4344506bcbf9b4de18042ae17996df046d # v3.0.0
@@ -205,7 +205,7 @@ jobs:
     outputs:
       sbom-hash-code: ${{ steps.sbom-hash-code.outputs.sbom-hash-code }}
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - name: Get Artifacts
         uses: actions/download-artifact@6b208ae046db98c579e8a3aa621ab581ff575935 #v4.1.1
@@ -312,7 +312,7 @@ jobs:
       run:
         shell: pwsh
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - name: Get Artifact
         uses: actions/download-artifact@6b208ae046db98c579e8a3aa621ab581ff575935 #v4.1.1
