@@ -76,6 +76,7 @@ function Restore {
 function SetDMSAssemblyInfo {
     Invoke-Execute {
         $assembly_version = $Version
+        Write-Host $assembly_version
 
         Invoke-RegenerateFile "$PSScriptRoot/Directory.Build.props" @"
 <Project>
@@ -120,7 +121,7 @@ function RunDotNetPack {
         $NuspecFileName
     )
 
-    dotnet pack "$ProjectName.csproj" --no-build --no-restore --output "$PSScriptRoot" --configuration $Configuration -p:NuspecFile="$NuspecFileName.nuspec" -p:NuspecProperties="version=$PackageVersion"
+    dotnet pack "$ProjectName.csproj" --no-build --no-restore --output "$PSScriptRoot" --configuration $Configuration
 }
 
 function Package {
