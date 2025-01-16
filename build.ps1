@@ -73,7 +73,7 @@ function Restore {
     Invoke-Execute { dotnet restore $defaultSolution }
 }
 
-function SetDMSAssemblyInfo {
+function AssemblyInfo {
     Invoke-Execute {
         $assembly_version = $Version
         Write-Host $assembly_version
@@ -195,6 +195,12 @@ function Invoke-Build {
     Invoke-Step { Compile }
 }
 
+function Invoke-SetAssemblyInfo {
+    Write-Output "Setting Assembly Information"
+
+    Invoke-Step { AssemblyInfo }
+}
+
 function Invoke-BuildAndPublish {
     Invoke-Build
     Invoke-Step { Publish }
@@ -235,7 +241,10 @@ Invoke-Main {
     switch ($Command) {
         Clean { Invoke-Clean }
         Build { Invoke-Build }
-        BuildAndPublish { Invoke-BuildAndPublish }
+        BuildAndPublish { 
+            Invoke-SetAssemblyInfo
+            Invoke-BuildAndPublish 
+        }
         Package { Invoke-Package }
         Push { Invoke-Push }
         UnitTest { Invoke-TestExecution UnitTests }
