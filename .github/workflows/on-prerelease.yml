@@ -18,7 +18,7 @@ env:
   VSS_NUGET_EXTERNAL_FEED_ENDPOINTS: '{"endpointCredentials": [{"endpoint": "https://pkgs.dev.azure.com/ed-fi-alliance/Ed-Fi-Alliance-OSS/_packaging/EdFi/nuget/v3/index.json","password": "${{ secrets.AZURE_ARTIFACTS_PERSONAL_ACCESS_TOKEN }}"}]}'
   DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
   DOCKER_USERNAME: ${{ vars.DOCKER_USERNAME }}
-  MANIFEST_FILE: "_manifest/spdx_2.2/manifest.spdx.json"
+  MANIFEST_FILE: "./sbom/_manifest/spdx_2.2/manifest.spdx.json"
   PACKAGE_NAME: "AdminConsole.InstanceManagementWorker"
   REF: ${{ github.ref_name }}
   IMAGE_NAME: ${{ vars.IMAGE_NAME }}
