@@ -321,9 +321,11 @@ jobs:
       - name: Push Package to Azure Artifacts
         run: |
           $artifact = (Get-ChildItem -Path $_ -Name -Include *.nupkg)
+          $appVersion = "${{ steps.versions.outputs.instance-management-semver }}"
           $arguments = @{
             EdFiNuGetFeed = "${{ env.ARTIFACTS_FEED_URL }}"
             NuGetApiKey = "${{ env.ARTIFACTS_API_KEY }}"
+            Version = $appVersion
           }
           $artifact | ForEach-Object {
               $arguments.PackageFile = $_
