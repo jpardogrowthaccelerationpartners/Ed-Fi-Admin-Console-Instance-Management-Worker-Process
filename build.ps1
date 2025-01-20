@@ -122,9 +122,6 @@ function Publish {
 function RunDotNetPack {
     param (
         [string]
-        $PackageVersion,
-
-        [string]
         $ProjectName,
 
         [string]
@@ -137,21 +134,16 @@ function RunDotNetPack {
 function Package {
     Invoke-Execute {
         $baseProjectFullName = "$solutionRoot/$csprojFolderName/$csprojFolderName"
-        RunDotNetPack -PackageVersion $Version -projectName $baseProjectFullName $baseProjectFullName        
+        RunDotNetPack -projectName $baseProjectFullName $baseProjectFullName        
     }
 }
 
 function Push {
-    param (
-        [string]
-        $PackageVersion = $Version       
-    )
-
     if (-not $NuGetApiKey) {
         throw "Cannot push a NuGet package without providing an API key in the `NuGetApiKey` argument."
     }
 
-    $PackageFile = "$PSScriptRoot/EdFi.AdminConsole.InstanceManagementWorker.$PackageVersion.nupkg"  
+    $PackageFile = "$PSScriptRoot/EdFi.AdminConsole.InstanceManagementWorker.$Version.nupkg"  
     DotnetPush  -PackageFileName $PackageFile       
 }
 
