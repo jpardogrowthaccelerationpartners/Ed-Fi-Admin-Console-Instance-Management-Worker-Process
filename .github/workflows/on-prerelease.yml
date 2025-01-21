@@ -43,19 +43,13 @@ jobs:
         id: versions
         run: |
           $prefix = "v"
-          
           # Install the MinVer CLI tool
           &dotnet tool install --global minver-cli
-          
           $appVersion = $(minver -t $prefix)
-          
           # Full release name
           "instance-management=$appVersion" >> $env:GITHUB_OUTPUT
-          echo Test1 "instance-management=$appVersion"
-          
           # SemVer
           "instance-management-semver=$($appVersion -Replace $prefix)" >> $env:GITHUB_OUTPUT
-          echo Test2 "instance-management-semver=$($appVersion -Replace $prefix)"
           
       - name: Setup .NET
         uses: actions/setup-dotnet@607fce577a46308457984d59e4954e075820f10a # v3.0.3
@@ -65,10 +59,9 @@ jobs:
       - name: Publish .NET Assemblies
         run: |
           $appVersion = "${{ steps.versions.outputs.instance-management-semver }}"
-          
           ./build.ps1 -Command BuildAndPublish `
               -Configuration Release `
-              -appVersion $appVersion
+              -Version $appVersion
               
       - name: Setup Nuget.exe
         uses: nuget/setup-nuget@fd9fffd6ca4541cf4152a9565835ca1a88a6eb37 #v1.1.1
@@ -77,11 +70,10 @@ jobs:
         if: success()
         run: |
           $appVersion = "${{ steps.versions.outputs.instance-management-semver }}"
-          
           "Building ${{ env.PACKAGE_NAME }} NuGet Package" | Write-Output
           # installer and Transform load to single package
           ./build.ps1 -Command Package `
-              -appVersion $appVersion `
+              -Version $appVersion `
               -Configuration Release
               
       - name: Generate hash for NuGet package
@@ -329,7 +321,6 @@ jobs:
       - name: Push Package to Azure Artifacts
         run: |
           $artifact = (Get-ChildItem -Path $_ -Name -Include *.nupkg)
-
           $arguments = @{
             EdFiNuGetFeed = "${{ env.ARTIFACTS_FEED_URL }}"
             NuGetApiKey = "${{ env.ARTIFACTS_API_KEY }}"
