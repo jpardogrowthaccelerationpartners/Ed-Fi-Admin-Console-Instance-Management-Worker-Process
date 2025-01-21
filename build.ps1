@@ -38,7 +38,7 @@ param(
     # current package number is configured in the build automation tool and
     # passed to this script.
     [string]
-    $appVersion = "0.1",
+    $Version = "0.1",
 
     # .NET project build configuration, defaults to "Debug". Options are: Debug, Release.
     [string]
@@ -86,7 +86,7 @@ function Restore {
 
 function AssemblyInfo {
     Invoke-Execute {
-        $assembly_version = $appVersion
+        $assembly_version = $Version
 
         Invoke-RegenerateFile "$PSScriptRoot/Directory.Build.props" @"
 <Project>
@@ -122,6 +122,9 @@ function Publish {
 function RunDotNetPack {
     param (
         [string]
+        $PackageVersion,
+
+        [string]
         $ProjectName,
 
         [string]
@@ -134,19 +137,24 @@ function RunDotNetPack {
 function Package {
     Invoke-Execute {
         $baseProjectFullName = "$solutionRoot/$csprojFolderName/$csprojFolderName"
-        RunDotNetPack -PackageVersion $appVersion -projectName $baseProjectFullName $baseProjectFullName      
+        RunDotNetPack -PackageVersion $Version -projectName $baseProjectFullName $baseProjectFullName        
     }
 }
 
 function Push {
+    param (
+        [string]
+        $PackageVersion = $Version       
+    )
+
     if (-not $NuGetApiKey) {
         throw "Cannot push a NuGet package without providing an API key in the `NuGetApiKey` argument."
     }
 
     if (-not $PackageFile) {
-        $PackageFile = "$PSScriptRoot/EdFi.AdminConsole.InstanceManagementWorker.$appVersion.nupkg"  
+        $PackageFile = "$PSScriptRoot/EdFi.AdminConsole.InstanceManagementWorker.$PackageVersion.nupkg"  
     }
-    
+
     DotnetPush  -PackageFileName $PackageFile       
 }
 
