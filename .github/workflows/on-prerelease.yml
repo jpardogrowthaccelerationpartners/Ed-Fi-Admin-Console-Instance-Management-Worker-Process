@@ -51,11 +51,11 @@ jobs:
           
           # Full release name
           "instance-management=$appVersion" >> $env:GITHUB_OUTPUT
-          echo Test ${{ steps.versions.outputs.instance-management }}
+          echo Test1 "instance-management=$appVersion"
           
           # SemVer
           "instance-management-semver=$($appVersion -Replace $prefix)" >> $env:GITHUB_OUTPUT
-          echo Test ${{ steps.versions.outputs.instance-management-semver }}
+          echo Test2 "instance-management-semver=$($appVersion -Replace $prefix)"
           
       - name: Setup .NET
         uses: actions/setup-dotnet@607fce577a46308457984d59e4954e075820f10a # v3.0.3
