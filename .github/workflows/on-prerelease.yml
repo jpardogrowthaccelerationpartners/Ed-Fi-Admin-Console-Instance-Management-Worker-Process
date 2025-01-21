@@ -62,7 +62,7 @@ jobs:
 
       - name: Publish .NET Assemblies
         run: |
-          $appVersion = "${{ steps.versions.outputs.instance-management }}"
+          $appVersion = "${{ steps.versions.outputs.instance-management-semver }}"
           
           ./build.ps1 -Command BuildAndPublish `
               -Configuration Release `
