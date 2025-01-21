@@ -38,7 +38,7 @@ param(
     # current package number is configured in the build automation tool and
     # passed to this script.
     [string]
-    $Version = "0.1",
+    $appVersion = "0.1",
 
     # .NET project build configuration, defaults to "Debug". Options are: Debug, Release.
     [string]
@@ -86,7 +86,7 @@ function Restore {
 
 function AssemblyInfo {
     Invoke-Execute {
-        $assembly_version = $Version
+        $assembly_version = $appVersion
 
         Invoke-RegenerateFile "$PSScriptRoot/Directory.Build.props" @"
 <Project>
@@ -134,7 +134,7 @@ function RunDotNetPack {
 function Package {
     Invoke-Execute {
         $baseProjectFullName = "$solutionRoot/$csprojFolderName/$csprojFolderName"
-        RunDotNetPack -projectName $baseProjectFullName $baseProjectFullName        
+        RunDotNetPack -PackageVersion $appVersion -projectName $baseProjectFullName $baseProjectFullName      
     }
 }
 
