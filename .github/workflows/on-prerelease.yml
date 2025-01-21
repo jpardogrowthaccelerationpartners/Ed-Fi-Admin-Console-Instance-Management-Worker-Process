@@ -43,11 +43,15 @@ jobs:
         id: versions
         run: |
           $prefix = "v"
+          
           # Install the MinVer CLI tool
           &dotnet tool install --global minver-cli
+          
           $appVersion = $(minver -t $prefix)
+          
           # Full release name
           "instance-management=$appVersion" >> $env:GITHUB_OUTPUT
+          
           # SemVer
           "instance-management-semver=$($appVersion -Replace $prefix)" >> $env:GITHUB_OUTPUT
           
@@ -59,6 +63,7 @@ jobs:
       - name: Publish .NET Assemblies
         run: |
           $appVersion = "${{ steps.versions.outputs.instance-management-semver }}"
+          
           ./build.ps1 -Command BuildAndPublish `
               -Configuration Release `
               -Version $appVersion
@@ -70,6 +75,7 @@ jobs:
         if: success()
         run: |
           $appVersion = "${{ steps.versions.outputs.instance-management-semver }}"
+          
           "Building ${{ env.PACKAGE_NAME }} NuGet Package" | Write-Output
           # installer and Transform load to single package
           ./build.ps1 -Command Package `
