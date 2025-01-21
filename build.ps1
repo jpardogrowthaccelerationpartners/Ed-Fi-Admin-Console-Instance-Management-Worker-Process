@@ -143,7 +143,7 @@ function Push {
         throw "Cannot push a NuGet package without providing an API key in the `NuGetApiKey` argument."
     }
 
-    $PackageFile = "$PSScriptRoot/EdFi.AdminConsole.InstanceManagementWorker.$Version.nupkg"  
+    $PackageFile = "$PSScriptRoot/EdFi.AdminConsole.InstanceManagementWorker.$appVersion.nupkg"  
     DotnetPush  -PackageFileName $PackageFile       
 }
 
